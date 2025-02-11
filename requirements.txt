@@ -7,3 +7,4 @@ gunicorn==21.0.0
 python-dotenv
 python-decouple
 openpyxl
+reportlab
