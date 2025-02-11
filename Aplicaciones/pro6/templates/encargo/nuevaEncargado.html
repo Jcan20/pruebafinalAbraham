@@ -1,0 +1,77 @@
+{% extends "plantilla.html" %}
+
+{% block body %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <form action="{% url 'guardarEncargado' %}" method="post" id="frm_nuevo_encargado" enctype="multipart/form-data">
+                {% csrf_token %}
+                
+                <label for="nombre">Nombre: <br></label>
+                <input type="text" name="nombre" class="form-control" id="nombre" placeholder="Ingrese el nombre del encargado" value="{{ encargadoEditar.nombre }}">
+                
+                <label for="correo">Correo Electrónico: <br></label>
+                <input type="email" name="correo" class="form-control" id="correo" placeholder="Ingrese el correo electrónico" value="{{ encargadoEditar.correo }}">
+                
+                <label for="telefono">Teléfono: <br></label>
+                <input type="text" name="telefono" class="form-control" id="telefono" placeholder="Ingrese el teléfono" value="{{ encargadoEditar.telefono }}">
+                
+                <label for="puesto">Puesto: <br></label>
+                <input type="text" name="puesto" class="form-control" id="puesto" placeholder="Ingrese el puesto" value="{{ encargadoEditar.puesto }}">
+
+                <label for="foto">Fotografía:</label>
+                <input type="file" name="foto" class="form-control" accept="image/png, image/jpeg, image/jpg">
+                {% if encargadoEditar.foto %}
+                    <div style="margin-top: 10px;">
+                        <img src="{{ encargadoEditar.foto.url }}" alt="Fotografía Actual" style="max-width: 150px;">
+                    </div>
+                {% endif %}
+                
+                <br>
+                <button type="submit" class="btn btn-primary">Guardar</button>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <a href="{% url 'listado_encargados' %}">Cancelar</a>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
+
+<script>
+    $("#frm_nuevo_encargado").validate({
+        rules: {
+            nombre: { required: true },
+            correo: { required: true, email: true },
+            telefono: { required: true },
+            puesto: { required: true }
+        },
+        messages: {
+            nombre: { required: "El nombre del encargado es obligatorio" },
+            correo: { required: "El correo electrónico es obligatorio", email: "Ingrese un correo electrónico válido" },
+            telefono: { required: "El teléfono es obligatorio" },
+            puesto: { required: "El puesto es obligatorio" }
+        },
+        errorClass: "error-message", 
+        highlight: function(element) {
+            $(element).addClass("error");
+        },
+        unhighlight: function(element) {
+            $(element).removeClass("error");
+        }
+    });
+</script>
+
+<style>
+    .error-message {
+        color: red;
+        font-size: 14px;
+        margin-top: 5px;
+    }
+    input.error, select.error, textarea.error {
+        border: 1px solid red;
+    }
+</style>
+
+{% endblock %}

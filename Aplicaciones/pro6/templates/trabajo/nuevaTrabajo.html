@@ -1,0 +1,92 @@
+{% extends "plantilla.html" %}
+
+{% block body %}
+<h1>Nuevo Trabajo</h1>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <form action="{% url 'guardarTrabajo' %}" method="post" id="frm_nuevo_trabajo" enctype="multipart/form-data">
+                {% csrf_token %}
+                
+                <label for="estructura">Seleccionar Estructura: <br></label>
+                <select name="estructura" class="form-control" id="estructura" required>
+                    <option value="" disabled selected>-- Seleccionar Estructura --</option>
+                    {% for estructura in estructuras %}
+                        <option value="{{ estructura.id }}">{{ estructura.nombre }}</option>
+                    {% endfor %}
+                </select>
+
+                <label for="descripcion">Descripción: <br></label>
+                <textarea name="descripcion" class="form-control" id="descripcion" placeholder="Ingrese una descripción del trabajo" required></textarea>
+
+                <label for="fecha_programada">Fecha Programada: <br></label>
+                <input type="date" name="fecha_programada" class="form-control" id="fecha_programada" required>
+
+                <label for="fecha_ejecucion">Fecha de Ejecución: <br></label>
+                <input type="date" name="fecha_ejecucion" class="form-control" id="fecha_ejecucion">
+
+                <label for="estado">Estado: <br></label>
+                <select name="estado" class="form-control" id="estado" required>
+                    <option value="pendiente" selected>Pendiente</option>
+                    <option value="realizado">Realizado</option>
+                </select>
+
+                <label for="documentos">Documentos: <br></label>
+                <input type="file" name="documentos" class="form-control" id="documentos" accept=".pdf, .doc, .docx, .odt">
+
+                <br>
+                <button type="submit" class="btn btn-primary">Guardar Trabajo</button>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <a href="{% url 'listado_trabajos' %}" class="btn btn-secondary">Cancelar</a>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Importar jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Importar jQuery Validation -->
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
+
+<!-- Estilos para los mensajes de error -->
+<style>
+    .error-message {
+        color: red;
+        font-size: 14px;
+        margin-top: 5px;
+    }
+
+    input.error, select.error, textarea.error {
+        border: 1px solid red;
+    }
+</style>
+
+<script>
+    // Validación del formulario
+    $("#frm_nuevo_trabajo").validate({
+        rules: {
+            estructura: { required: true },
+            descripcion: { required: true },
+            fecha_programada: { required: true },
+            estado: { required: true },
+            documentos: { extension: "pdf|doc|docx|odt" }
+        },
+        messages: {
+            estructura: { required: "Debe seleccionar una estructura" },
+            descripcion: { required: "La descripción es obligatoria" },
+            fecha_programada: { required: "La fecha programada es obligatoria" },
+            estado: { required: "Debe seleccionar un estado" },
+            documentos: { extension: "El archivo debe ser en formato pdf, doc, docx o odt" }
+        },
+        errorClass: "error-message",
+        highlight: function(element) {
+            $(element).addClass("error");
+        },
+        unhighlight: function(element) {
+            $(element).removeClass("error");
+        }
+    });
+</script>
+
+{% endblock %}

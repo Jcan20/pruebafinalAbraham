@@ -1,0 +1,46 @@
+{% extends "plantilla.html" %}
+
+{% block body %}
+<h1>EDITAR ENCARGADO</h1>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <form action="{% url 'procesoActualizarEncargado' %}" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <input type="hidden" name="id" value="{{ encargadoEditar.id }}">
+
+                <label for=""><b>Nombre:</b></label>
+                <input type="text" name="nombre" class="form-control" value="{{ encargadoEditar.nombre }}" 
+                       id="nombre" placeholder="Ingrese el nombre del encargado">
+
+                <label for=""><b>Correo Electrónico:</b></label>
+                <!-- Cambié el nombre de 'email' a 'correo' -->
+                <input type="email" name="correo" class="form-control" value="{{ encargadoEditar.correo }}" 
+                       id="correo" placeholder="Ingrese el correo electrónico">
+
+                <label for=""><b>Teléfono:</b></label>
+                <input type="text" name="telefono" class="form-control" value="{{ encargadoEditar.telefono }}" 
+                       id="telefono" placeholder="Ingrese el teléfono del encargado">
+
+                <label for="">Fotografía:</label>
+                {% if encargadoEditar.foto %}
+                    <div>
+                        <p><strong>Fotografía Actual:</strong></p>
+                        <img src="{{ encargadoEditar.foto.url }}" alt="Foto de encargado {{ encargadoEditar.id }}" width="100" height="100">
+                        <br>
+                        <a href="{{ encargadoEditar.foto.url }}" download="{{ encargadoEditar.id }}_foto">Descargar Foto</a>
+                    </div>
+                    <br>
+                {% endif %}
+                <input type="file" name="fotografia" class="form-control">
+
+                <br>
+                <button type="submit" class="btn btn-warning">Actualizar</button>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <a href="{% url 'listado_encargados' %}" class="btn btn-secondary">Cancelar</a>
+            </form>
+        </div>
+    </div>
+</div>
+<br>
+{% endblock %}

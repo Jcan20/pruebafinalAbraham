@@ -1,0 +1,72 @@
+{% extends './plantilla.html' %}
+{% load static %}
+
+{% block head %}
+<!-- Agregar CSS de Bootstrap -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    <h2 class="text-center">Proyectos e Inscripciones</h2>
+    
+    <!-- Sección de Proyectos -->
+    <section id="proyectos" class="my-5">
+        <h3 class="text-primary">Nuestros Proyectos Recientes</h3>
+        <p class="lead">Estamos llevando a cabo varios proyectos interesantes en diferentes áreas. Aquí te presentamos algunos de ellos.</p>
+        
+        <div class="row">
+            <!-- Proyecto 1 -->
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT4zexbPoT017SJ89HKFkmwl5B9C1COhE1CXQ&s" class="card-img-top" alt="Proyecto 1">
+                    <div class="card-body">
+                        <h5 class="card-title">Innovación en Educación</h5>
+                        <p class="card-text">Este proyecto tiene como objetivo mejorar la calidad educativa a través de nuevas metodologías tecnológicas.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Proyecto 2 -->
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTe755nJj_WlwQiFVEAWUEsdx8JJuAdoF2QzFJ7aqsuKQ_VXZWQpZsU4PqdjnISjEtNeXI&usqp=CAU" class="card-img-top" alt="Proyecto 2">
+                    <div class="card-body">
+                        <h5 class="card-title">Energías Renovables</h5>
+                        <p class="card-text">Buscamos implementar fuentes de energía renovable en áreas rurales, promoviendo la sostenibilidad y la eficiencia energética.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Proyecto 3 -->
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <img src="https://www.portafolio.co/files/article_new_multimedia/uploads/2024/02/29/65e13b8f03c41.jpeg" class="card-img-top" alt="Proyecto 3">
+                    <div class="card-body">
+                        <h5 class="card-title">Salud y Tecnología</h5>
+                        <p class="card-text">A través de este proyecto, estamos utilizando la tecnología para mejorar la atención médica en comunidades vulnerables.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección de Inscripciones -->
+    <section id="inscripciones" class="my-5">
+        <h3 class="text-primary">¡Inscripción Abierta!</h3>
+        <p class="lead">Si deseas ser parte de nuestros proyectos, te invitamos a estar atento a las inscripciones. A través de estos proyectos, buscamos impactar positivamente en la sociedad.</p>
+        <p>Para más detalles sobre cada proyecto, consulta la sección correspondiente en el sitio web. No pierdas la oportunidad de formar parte de estos proyectos innovadores.</p>
+    </section>
+
+    <!-- Más Información -->
+    <section id="mas" class="my-5">
+        <h3 class="text-primary">¿Tienes alguna pregunta?</h3>
+        <p class="lead">Estamos aquí para ayudarte. Si tienes alguna pregunta sobre los proyectos o el proceso de inscripción, no dudes en ponerte en contacto con nosotros.</p>
+    </section>
+</div>
+
+<!-- Agregar scripts de Bootstrap -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+{% endblock %}

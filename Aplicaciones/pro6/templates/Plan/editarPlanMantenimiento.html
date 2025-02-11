@@ -1,0 +1,93 @@
+{% extends "plantilla.html" %}
+
+{% block body %}
+<h1>Editar Plan de Mantenimiento</h1>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <form action="{% url 'procesoActualizarPlanMantenimiento' %}" method="post" id="frm_plan_mantenimiento" enctype="multipart/form-data">
+                {% csrf_token %}
+                <input type="hidden" name="plan_id" value="{{ plan.id }}">
+
+                <label for="estructura">Seleccionar Estructura: <br></label>
+                <select name="estructura" class="form-control" id="estructura" required>
+                    <option value="" disabled>-- Seleccionar Estructura --</option>
+                    {% for estructura in estructuras %}
+                        <option value="{{ estructura.id }}" {% if plan.estructura.id == estructura.id %}selected{% endif %}>
+                            {{ estructura.nombre }}
+                        </option>
+                    {% endfor %}
+                </select>
+
+                <label for="trabajo">Trabajo Realizado: <br></label>
+                <select name="trabajo" class="form-control" id="trabajo" required>
+                    <option value="" disabled>-- Seleccionar Trabajo --</option>
+                    {% for trabajo_item in trabajos %}
+                        <option value="{{ trabajo_item.id }}" {% if plan.trabajo == trabajo_item.id %}selected{% endif %}>
+                            {{ trabajo_item.nombre }}
+                        </option>
+                    {% endfor %}
+                </select>
+
+                <label for="encargado">Encargado del Trabajo: <br></label>
+                <select name="encargado" class="form-control" id="encargado" required>
+                    <option value="" disabled>-- Seleccionar Encargado --</option>
+                    {% for encargado_item in encargados %}
+                        <option value="{{ encargado_item.id }}" {% if plan.encargado == encargado_item.id %}selected{% endif %}>
+                            {{ encargado_item.nombre }}
+                        </option>
+                    {% endfor %}
+                </select>
+
+                <label for="fecha_inicio">Fecha de Inicio: <br></label>
+                <input type="date" name="fecha_inicio" class="form-control" id="fecha_inicio" value="{{ plan.fecha_inicio|date:'Y-m-d' }}" required>
+
+                <label for="fecha_fin">Fecha de Fin: <br></label>
+                <input type="date" name="fecha_fin" class="form-control" id="fecha_fin" value="{{ plan.fecha_fin|date:'Y-m-d' }}" required>
+
+                <label for="tipo">Tipo de Plan: <br></label>
+                <select name="tipo" class="form-control" id="tipo" required>
+                    <option value="" disabled>-- Seleccionar Tipo --</option>
+                    <option value="preventivo" {% if plan.tipo == 'preventivo' %}selected{% endif %}>Preventivo</option>
+                    <option value="correctivo" {% if plan.tipo == 'correctivo' %}selected{% endif %}>Correctivo</option>
+                </select>
+
+                <label for="documento_plan">Documento del Plan de Mantenimiento: <br></label>
+                <input type="file" name="documento_plan" class="form-control" id="documento_plan" accept=".pdf, .doc, .docx, .odt">
+
+                {% if plan.documentos %}
+                    <p>Documento actual: <a href="{{ plan.documentos.url }}" target="_blank">Ver archivo</a></p>
+                {% endif %}
+
+                <br>
+                <button type="submit" class="btn btn-primary">Actualizar</button>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <a href="{% url 'listado_planes_mantenimiento' %}" class="btn btn-secondary">Cancelar</a>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Validación del formulario de plan de mantenimiento
+    $("#frm_plan_mantenimiento").validate({
+        rules: {
+            estructura: { required: true },
+            trabajo: { required: true },
+            encargado: { required: true },
+            fecha_inicio: { required: true },
+            fecha_fin: { required: true },
+            tipo: { required: true }
+        },
+        messages: {
+            estructura: { required: "Debe seleccionar una estructura" },
+            trabajo: { required: "Debe seleccionar el trabajo realizado" },
+            encargado: { required: "Debe seleccionar un encargado" },
+            fecha_inicio: { required: "La fecha de inicio es obligatoria" },
+            fecha_fin: { required: "La fecha de fin es obligatoria" },
+            tipo: { required: "Debe seleccionar el tipo de plan" }
+        }
+    });
+</script>
+
+{% endblock %}

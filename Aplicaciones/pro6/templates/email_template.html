@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Detalles del Encargado</title>
+</head>
+<body>
+    <h2>Detalles del Encargado {{ encargado.nombre }}</h2>
+    <p><strong>Nombre:</strong> {{ encargado.nombre }}</p>
+    <p><strong>Correo Electrónico:</strong> {{ encargado.correo }}</p>
+    <p><strong>Teléfono:</strong> {{ encargado.telefono }}</p>
+    <p><strong>Fotografía:</strong></p>
+    {% if encargado.foto %}
+        <img src="{{ encargado.foto.url }}" alt="Foto de {{ encargado.nombre }}" width="200">
+    {% else %}
+        <p>No tiene fotografía.</p>
+    {% endif %}
+</body>
+</html>

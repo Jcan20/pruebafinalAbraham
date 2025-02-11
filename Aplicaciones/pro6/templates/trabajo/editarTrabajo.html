@@ -1,0 +1,113 @@
+{% extends "plantilla.html" %}
+
+{% block body %}
+<h1>EDITAR TRABAJO</h1>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <form action="{% url 'procesoActualizarTrabajo' %}" method="post" enctype="multipart/form-data" id="frm_editar_trabajo">
+                {% csrf_token %}
+                <input type="hidden" name="id" value="{{ trabajo.id }}">
+
+                <label for="estructura"><b>Estructura:</b></label>
+                <select name="estructura" class="form-control" id="estructura">
+                    {% for estructura in estructuras %}
+                        <option value="{{ estructura.id }}" {% if trabajo.estructura.id == estructura.id %}selected{% endif %}>
+                            {{ estructura.nombre }}
+                        </option>
+                    {% endfor %}
+                </select>
+
+                <label for="descripcion"><b>Descripción:</b></label>
+                <textarea name="descripcion" class="form-control" id="descripcion" placeholder="Ingrese la descripción del trabajo">{{ trabajo.descripcion }}</textarea>
+
+                <label for="fecha_programada">Fecha Programada: <br></label>
+                <input type="date" name="fecha_programada" class="form-control" value="{{ trabajo.fecha_programada|date:'Y-m-d' }}" id="fecha_programada">
+
+                <label for="fecha_ejecucion">Fecha de Ejecución: <br></label>
+                <input type="date" name="fecha_ejecucion" class="form-control" value="{{ trabajo.fecha_ejecucion|date:'Y-m-d' }}" id="fecha_ejecucion">
+
+                <label for="estado"><b>Estado:</b></label>
+                <select name="estado" class="form-control" id="estado">
+                    <option value="pendiente" {% if trabajo.estado == 'pendiente' %}selected{% endif %}>Pendiente</option>
+                    <option value="realizado" {% if trabajo.estado == 'realizado' %}selected{% endif %}>Realizado</option>
+                </select>
+
+                <label for="documento"><b>Documento :</b></label>
+<input type="file" name="documento" class="form-control" id="documento">
+{% if trabajo.documento %}
+    <div style="margin-top: 10px;">
+        <a href="{{ trabajo.documento.url }}" target="_blank">Ver Documento Actual</a>
+    </div>
+{% else %}
+    <p>No hay documento cargado</p>
+{% endif %}
+
+
+                <br>
+                <button type="submit" class="btn btn-warning">Actualizar</button>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <a href="{% url 'listado_trabajos' %}" class="btn btn-secondary">Cancelar</a>
+            </form>
+        </div>
+    </div>
+</div>
+<br>
+
+<!-- Importar jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Importar jQuery Validation -->
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
+
+<!-- Estilos para los mensajes de error -->
+<style>
+    .error-message {
+        color: red; /* Mensajes en rojo */
+        font-size: 14px; /* Tamaño de fuente */
+        margin-top: 5px;
+    }
+
+    input.error, select.error, textarea.error {
+        border: 1px solid red; /* Borde rojo para los campos con error */
+    }
+</style>
+
+<script>
+    // Validación del formulario
+    $("#frm_editar_trabajo").validate({
+        rules: {
+            estructura: { required: true },
+            descripcion: { required: true },
+            fecha_programada: { required: true },
+            estado: { required: true },
+            documento: { extension: "pdf|doc|docx|odt" },
+        },
+        messages: {
+            estructura: { 
+                required: "Debe seleccionar una estructura" 
+            },
+            descripcion: { 
+                required: "La descripción es obligatoria" 
+            },
+            fecha_programada: { 
+                required: "La fecha programada es obligatoria" 
+            },
+            estado: { 
+                required: "Debe seleccionar un estado" 
+            },
+            documento: { 
+                extension: "El archivo debe ser en formato pdf, doc, docx o odt"
+            },
+        },
+        errorClass: "error-message", // Clase para los mensajes de error
+        highlight: function(element) {
+            $(element).addClass("error");
+        },
+        unhighlight: function(element) {
+            $(element).removeClass("error");
+        }
+    });
+</script>
+
+{% endblock %}

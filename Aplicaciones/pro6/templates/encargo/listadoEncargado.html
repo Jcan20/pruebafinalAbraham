@@ -1,0 +1,73 @@
+{% extends "plantilla.html" %}
+
+{% block body %}
+<br>
+<div class="card">
+    <div class="card-title text-center">
+        <h3><b>Listado de Encargados</b></h3>
+    </div>
+</div>
+<br>
+
+<!-- Mostrar mensajes de éxito o error -->
+{% if messages %}
+    <div class="alert alert-info">
+        {% for message in messages %}
+            <p>{{ message }}</p>
+        {% endfor %}
+    </div>
+{% endif %}
+
+<div style="text-align: center;">
+    <a href="{% url 'nuevoEncargado' %}" class="btn btn-success">Agregar Encargado</a>
+</div>
+<div style="text-align: center; margin-top: 20px;">
+    <img src="https://imgmedia.larepublica.pe/640x371/larepublica/original/2024/08/30/66d1c943ec309a66222ed421.webp" alt="Imagen Encargado" style="width: 100%; max-width: 200px; height: auto;">
+</div>
+<br>
+<table class="table table-bordered table-striped table-hover text-center" id="tbl-encargados">
+    <thead>
+        <tr>
+            <th style="color: green;">ID</th>
+            <th style="color: green;">Nombre</th>
+            <th style="color: green;">Correo Electrónico</th>
+            <th style="color: green;">Teléfono</th>
+            <th style="color: red;">Fotografía</th>
+            <th style="color: green;">Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for encargado in encargados %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ encargado.nombre }}</td>  
+            <td>{{ encargado.correo }}</td>
+            <td>{{ encargado.telefono }}</td>
+            <td>
+                {% if encargado.foto %}
+                    <img src="{{ encargado.foto.url }}" alt="Foto de encargado {{ encargado.id }}" width="100" height="100">
+                    <br>
+                    <a href="{{ encargado.foto.url }}" download="{{ encargado.id }}_foto">
+                        <button type="button">Descargar</button>
+                    </a>
+                {% else %}
+                    Sin fotografía
+                {% endif %}
+            </td>
+            <td>
+                <a href="{% url 'editarEncargado' encargado.id %}" class="btn btn-warning">Editar</a>
+                <a href="{% url 'eliminarEncargado' encargado.id %}" onclick="return confirm('¿Estás seguro de eliminar?')" class="btn btn-danger">Eliminar</a>
+                <a href="{% url 'enviarCorreoEncargado' encargado.id %}" class="btn btn-info">Enviar al Correo</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<script>
+    $(document).ready(function() {
+        $('#tbl-encargados').DataTable();
+    });
+</script>
+
+{% endblock %}

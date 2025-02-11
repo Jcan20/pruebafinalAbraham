@@ -1,0 +1,96 @@
+{% extends "plantilla.html" %}
+
+{% block body %}
+<h1>EDITAR ESTRUCTURA</h1>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <form action="{% url 'procesoActualizarEstructura' %}" method="post" id="frm_editar_estructura" enctype="multipart/form-data">
+                {% csrf_token %}
+                <input type="hidden" name="id" value="{{ estructuraEditar.id }}">
+
+                <label for="nombre">Nombre: <br></label>
+                <input type="text" name="nombre" class="form-control" id="nombre" value="{{ estructuraEditar.nombre }}" placeholder="Ingrese el nombre de la estructura" required>
+                <div class="invalid-feedback" id="nombre-error"></div>
+
+                <label for="descripcion">Descripción: <br></label>
+                <textarea name="descripcion" class="form-control" id="descripcion" placeholder="Ingrese la descripción" required>{{ estructuraEditar.descripcion }}</textarea>
+                <div class="invalid-feedback" id="descripcion-error"></div>
+
+                <label for="ubicacion">Ubicación: <br></label>
+                <input type="text" name="ubicacion" class="form-control" id="ubicacion" value="{{ estructuraEditar.ubicacion }}" placeholder="Ingrese la ubicación" required>
+                <div class="invalid-feedback" id="ubicacion-error"></div>
+
+                <label for="fecha_instalacion">Fecha de Instalación: <br></label>
+                <input type="date" name="fecha_instalacion" class="form-control" id="fecha_instalacion" value="{{ estructuraEditar.fecha_instalacion }}" required>
+                <div class="invalid-feedback" id="fecha_instalacion-error"></div>
+
+                <label for="foto">Fotografía: <br></label>
+                <input type="file" name="foto" class="form-control" id="foto" accept="image/png, image/jpeg, image/jpg">
+                {% if estructuraEditar.foto %}
+                    <div style="margin-top: 10px;">
+                        <img src="{{ estructuraEditar.foto.url }}" alt="Fotografía Actual" style="max-width: 150px;">
+                    </div>
+                {% else %}
+                    <p>No hay fotografía cargada</p>
+                {% endif %}
+                <div class="invalid-feedback" id="foto-error"></div>
+
+                <br>
+                <button type="submit" class="btn btn-primary">Actualizar</button>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <a href="{% url 'listado_estructuras' %}" class="btn btn-secondary">Cancelar</a>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Importar jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Importar jQuery Validation -->
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
+
+<!-- Estilos para los mensajes de error -->
+<style>
+    .error-message {
+        color: red;
+        font-size: 14px;
+        margin-top: 5px;
+    }
+    input.error, select.error, textarea.error {
+        border: 1px solid red;
+    }
+</style>
+
+<script>
+    $("#frm_editar_estructura").validate({
+        rules: {
+            nombre: { required: true },
+            descripcion: { required: true },
+            ubicacion: { required: true },
+            fecha_instalacion: { required: true },
+            foto: { 
+                extension: "png|jpg|jpeg" 
+            },
+        },
+        messages: {
+            nombre: { required: "El nombre es obligatorio" },
+            descripcion: { required: "La descripción es obligatoria" },
+            ubicacion: { required: "La ubicación es obligatoria" },
+            fecha_instalacion: { required: "La fecha de instalación es obligatoria" },
+            foto: { 
+                extension: "La fotografía debe ser en formato PNG, JPG o JPEG"
+            },
+        },
+        errorClass: "error-message", 
+        highlight: function(element) {
+            $(element).addClass("error");
+        },
+        unhighlight: function(element) {
+            $(element).removeClass("error");
+        }
+    });
+</script>
+
+{% endblock %}

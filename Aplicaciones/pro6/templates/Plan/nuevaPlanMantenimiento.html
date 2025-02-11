@@ -1,0 +1,48 @@
+{% extends "plantilla.html" %}
+
+{% block body %}
+<h1>Nuevo Plan de Mantenimiento</h1>
+<form action="{% url 'guardar_plan_mantenimiento' %}" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <label for="estructura"><b>Estructura:</b></label>
+    <select name="estructura" class="form-control" required>
+        <option value="" disabled selected>-- Seleccionar Estructura --</option>
+        {% for estructura in estructuras %}
+            <option value="{{ estructura.id }}">{{ estructura.nombre }}</option>
+        {% endfor %}
+    </select>
+    
+    <label for="trabajo"><b>Trabajo:</b></label>
+    <select name="trabajo" class="form-control" required>
+        <option value="" disabled selected>-- Seleccionar Trabajo --</option>
+        {% for trabajo in trabajos %}
+            <option value="{{ trabajo.id }}">{{ trabajo.descripcion }}</option>
+        {% endfor %}
+    </select>
+    
+    <label for="encargado"><b>Encargado:</b></label>
+    <select name="encargado" class="form-control" required>
+        <option value="" disabled selected>-- Seleccionar Encargado --</option>
+        {% for encargado in encargados %}
+            <option value="{{ encargado.id }}">{{ encargado.nombre }}</option>
+        {% endfor %}
+    </select>
+    
+    <label for="fecha_inicio"><b>Fecha de Inicio:</b></label>
+    <input type="date" name="fecha_inicio" class="form-control" required>
+
+    <label for="fecha_fin"><b>Fecha de Fin:</b></label>
+    <input type="date" name="fecha_fin" class="form-control" required>
+    
+    <label for="tipo"><b>Tipo:</b></label>
+    <select name="tipo" class="form-control" required>
+        <option value="preventivo">Preventivo</option>
+        <option value="correctivo">Correctivo</option>
+    </select>
+
+    <label for="documentos"><b>Documentos:</b></label>
+    <input type="file" name="documentos" class="form-control">
+    
+    <button type="submit" class="btn btn-success">Guardar</button>
+</form>
+{% endblock %}
