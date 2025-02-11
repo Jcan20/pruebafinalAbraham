@@ -8,3 +8,4 @@ python-dotenv
 python-decouple
 openpyxl
 reportlab
+whitenoise==6.2.0
